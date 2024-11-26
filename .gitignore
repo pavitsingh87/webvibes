@@ -1,0 +1,11 @@
+# Ignore environment file
+.env
+
+# Ignore vendor directory
+/vendor/
+
+# Ignore recaptcha folder
+/assets/php/recaptcha/
+
+# Ignore phpMailer folder
+/assets/php/phpMailer/
