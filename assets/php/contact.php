@@ -19,7 +19,20 @@ $surname = $_POST['surname'];
 $email = $_POST['email'];
 $department = $_POST['department'];
 $message = $_POST['message'];
+$recaptchaResponse = $_POST['g-recaptcha-response']; // reCAPTCHA response from the form
 
+// Google reCAPTCHA Secret Key
+$secretKey = '6LfwaoIqAAAAADZf1OX7I4EsDTKoaLQHSG_SoSEk';  // Replace with your reCAPTCHA secret key
+
+// Verify reCAPTCHA response
+$verifyUrl = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptchaResponse";
+$response = file_get_contents($verifyUrl);
+$responseKeys = json_decode($response, true);
+
+if (intval($responseKeys["success"]) !== 1) {
+    echo json_encode(["success" => false, "message" => "reCAPTCHA verification failed. Please try again."]);
+    exit;
+}
 // Sanitize inputs to prevent SQL injection
 $name = $conn->real_escape_string($name);
 $surname = $conn->real_escape_string($surname);
@@ -31,7 +44,7 @@ $message = $conn->real_escape_string($message);
 $sql = "INSERT INTO contact_form (name, surname, email, department, message) VALUES ('$name', '$surname', '$email', '$department', '$message')";
 if ($conn->query($sql) === TRUE) {
     // Send email to the user
-    $fromEmail = '';
+    $fromEmail = 'no-reply@webvibes.ca';
     $fromName = 'WebVibes Support';
     $sendToEmail = $email; // Send email to the user
     $sendToName = "$name $surname";
@@ -45,8 +58,8 @@ if ($conn->query($sql) === TRUE) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.zohocloud.ca';  // Use the correct Zoho SMTP server
                 $mail->SMTPAuth = true;
-                $mail->Username = '';  // Your Zoho email address
-                $mail->Password = ''; // Use app-specific password if needed
+                $mail->Username = 'admin@webvibes.ca';  // Your Zoho email address
+                $mail->Password = 'Waheguru@1988'; // Use app-specific password if needed
                 $mail->SMTPSecure = 'ssl';  // Use 'ssl' for encryption (as a string)
                 $mail->Port = 465;  // Use port 465 for SSL connection
 
