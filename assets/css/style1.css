@@ -1,0 +1,27 @@
+/**
+ * style1.css
+ *
+ * @format
+ */
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  color: #fff; /* Adjust the text color as needed */
+  font-weight: bold;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  right: 8px;
+  height: 50px; /* Adjust the height of the circle */
+  border: 3px solid #ffcc00; /* Adjust the circle color */
+  border-radius: 50%; /* Make it circular */
+  transform: scale(1.2); /* Adjust the size of the circle */
+  z-index: -2; /* Ensure the circle is behind the text */
+}

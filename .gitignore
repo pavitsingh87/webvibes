@@ -9,3 +9,7 @@
 
 # Ignore phpMailer folder
 /assets/php/phpMailer/
+
+config.php
+
+.env
